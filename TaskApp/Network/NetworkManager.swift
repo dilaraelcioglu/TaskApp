@@ -26,7 +26,6 @@ final class NetworkManager: NetworkManagerProtocol {
         request(.getProductDetail(productID: productId), completion: completion)
     }
     
-
 }
 
 extension NetworkManager {
