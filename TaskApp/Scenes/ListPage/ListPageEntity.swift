@@ -8,8 +8,8 @@
 import Foundation
 
 struct ListModel: Codable {
-    let page, nextPage, publishedAt: String
-    let sponsoredProducts, products: [Product]
+    let page, nextPage, publishedAt: String?
+    let sponsoredProducts, products: [Product]?
 
     enum CodingKeys: String, CodingKey {
         case page, nextPage
@@ -19,9 +19,9 @@ struct ListModel: Codable {
 }
 
 struct Product: Codable {
-    let id: Int
-    let title, image: String
-    let price: Double
+    let id: Int?
+    let title, image: String?
+    let price: Double?
     let instantDiscountPrice, rate: Double?
     let sellerName: String?
 }

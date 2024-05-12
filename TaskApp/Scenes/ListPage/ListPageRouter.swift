@@ -25,9 +25,9 @@ final class ListRouter: ListRouterProtocol {
         
         view.presenter = presenter
         presenter.view = view
-   //     presenter.router = router
+        presenter.router = router
         presenter.interactor = interactor
- //       interactor.presenter = presenter
+        interactor.presenter = presenter
         router.view = view
         
         return view

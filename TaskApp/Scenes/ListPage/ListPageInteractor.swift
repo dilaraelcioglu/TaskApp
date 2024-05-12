@@ -8,27 +8,38 @@
 import Foundation
 
 protocol ListInteractorProtocol {
-//    var presenter: MovieListInteractorOutputProtocol? { get set }
-    func getAllPoructs()
+    var presenter: ListInteractorOutputProtocol? { get set }
+    
+    func loadAllProducts()
+
 }
 
 final class ListInteractor: ListInteractorProtocol {
-    
-    private var pageNumber: Int = 0
-    private var maxPage: Int = 0
-    //   weak var presenter: MovieListInteractorOutputProtocol?
 
-    func getAllPoructs() {
-        NetworkManager.shared.getAllProducts(pageIndex: pageNumber) { [weak self] result in
-            switch result {
-            case .success(let success):
-                print("")
-              //  self?.presenter?.didFetchTrendingMoviesSuccess(movie: success)
-            case .failure(let failure):
-                print("")
-              //  self?.presenter?.didFetchTrendingMoviesFailure(errorMessage: failure.localizedDescription)
+    weak var presenter: ListInteractorOutputProtocol?
+
+    func loadAllProducts() {
+        var currentPage = 1
+        
+        func fetchNextPage() {
+            NetworkManager.shared.fetchListings(page: currentPage) { result in
+                switch result {
+                case .success(let products):
+                    DispatchQueue.main.async {
+                        // UI güncelleme işlemleri burada yapılabilir
+                    }
+                    
+                    if let nextPageString = products.nextPage, let nextPage = Int(nextPageString) {
+                        currentPage = nextPage
+                        fetchNextPage()
+                    }
+                    
+                case .failure(let error):
+                    print("Error: \(error)")
+                }
             }
         }
+        fetchNextPage()
     }
     
 }

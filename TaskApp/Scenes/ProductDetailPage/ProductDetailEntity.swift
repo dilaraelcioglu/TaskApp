@@ -6,9 +6,9 @@
 //
 
 struct ProductDetailModel: Codable {
-    let title, description: String
-    let images: [String]
-    let price, instantDiscountPrice: Int
-    let rate: Double
-    let sellerName: String
+    let title, description: String?
+    let images: [String]?
+    let price, instantDiscountPrice: Int?
+    let rate: Double?
+    let sellerName: String?
 }

@@ -12,7 +12,7 @@ protocol ListViewProtocol: AnyObject {
     var presenter: ListPresenterProtocol? { get set }
     func setupUI()
     func reloadCollectionView()
-
+    func showAlert(_ errorMessage: String, completion: @escaping ()->())
 }
 
 class ListViewController: UIViewController {
@@ -44,10 +44,32 @@ class ListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-        NetworkManager.shared.getAllProducts(pageIndex: 1) { result in
-            print(result)
+   //     fetchAllListings()
+        presenter?.viewDidLoad()
+    }
+    
+    func fetchAllListings() {
+        var currentPage = 1
+        
+        func fetchNextPage() {
+            NetworkManager.shared.fetchListings(page: currentPage) { result in
+                switch result {
+                case .success(let products):
+                    DispatchQueue.main.async {
+                        // UI güncelleme işlemleri burada yapılabilir
+                    }
+                    
+                    if let nextPageString = products.nextPage, let nextPage = Int(nextPageString) {
+                        currentPage = nextPage
+                        fetchNextPage()
+                    }
+                    
+                case .failure(let error):
+                    print("Error: \(error)")
+                }
+            }
         }
-   //     presenter?.viewDidLoad()
+        fetchNextPage()
     }
     
 }
@@ -93,12 +115,13 @@ extension ListViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-      //  presenter?.didSelectProduct(productId: productId ?? 0)
+        presenter?.didSelectProduct(productId: 12333)
     }
     
 }
 
 extension ListViewController: ListViewProtocol {
+
     func reloadCollectionView() {
         DispatchQueue.main.async { [weak self] in
             self?.mainCollectionView.reloadData()

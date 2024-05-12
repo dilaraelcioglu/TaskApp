@@ -12,16 +12,19 @@ protocol ProductDetailInteractorProtocol {
 }
 
 final class ProductDetailInteractor: ProductDetailInteractorProtocol {
+    
+    weak var presenter: ProductDetailInteractorOutputProcol?
 
     func loadProductDetail(productId: Int) {
-        NetworkManager.shared.getDetailProduct(productId: productId) { result in
+        
+        NetworkManager.shared.fetchProduct(productId: productId) { result in
             switch result {
             case .success(let success):
                 print("")
-       //         self.presenter?.didFetchMovieDetailSuccess(movie: success)
+                self.presenter?.didFetchProductDetailSuccess(product: success)
             case .failure(let failure):
                 print("")
-      //          self.presenter?.didFetchMovieDetailFailure(errorMessage: failure.localizedDescription)
+                self.presenter?.didFetchProductDetailFailure(errorMessage: failure.localizedDescription)
             }
         }
     }

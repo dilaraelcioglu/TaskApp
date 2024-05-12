@@ -14,8 +14,56 @@
             filePath = "TaskApp/Scenes/ListPage/ListPagePresenter.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "29"
-            endingLineNumber = "29"
+            startingLineNumber = "34"
+            endingLineNumber = "34"
+            landmarkName = "viewDidLoad()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "D9BCCFAD-93EC-4EFA-B367-52D02743C56B - 6d803df8d4784661"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "TaskApp.ListPresenter.cellForRow(at: Foundation.IndexPath) -&gt; Swift.Optional&lt;Swift.Array&lt;TaskApp.Product&gt;&gt;"
+                  moduleName = "TaskApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/dilaraelcioglu/Desktop/TaskApp/TaskApp/Scenes/ListPage/ListPagePresenter.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "34"
+                  endingLineNumber = "34"
+                  offsetFromSymbolStart = "148">
+               </Location>
+               <Location
+                  uuid = "D9BCCFAD-93EC-4EFA-B367-52D02743C56B - 2d1426af4701c6f4"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "TaskApp.ListPresenter.viewDidLoad() -&gt; ()"
+                  moduleName = "TaskApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/dilaraelcioglu/Desktop/TaskApp/TaskApp/Scenes/ListPage/ListPagePresenter.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "34"
+                  endingLineNumber = "34"
+                  offsetFromSymbolStart = "48">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "551EE30B-0C0D-4AF5-B4A7-BC338B06D236"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TaskApp/Scenes/ListPage/ListViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "48"
+            endingLineNumber = "48"
             landmarkName = "viewDidLoad()"
             landmarkType = "7">
          </BreakpointContent>

@@ -21,8 +21,8 @@ final class ProductDetailRouter: ProductDetailRouterProtocol {
         let presenter = ProductDetailPresenter(productId: productId)
         let router = ProductDetailRouter()
         
-   //     view.presenter = presenter
-  //      interactor.presenter = presenter
+        view.presenter = presenter as! any ProductDetailPresenterProtocol
+        interactor.presenter = presenter
         router.view = view
         presenter.view = view
         presenter.router = router

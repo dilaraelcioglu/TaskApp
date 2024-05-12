@@ -14,20 +14,27 @@ protocol ListPresenterProtocol {
     func cellForRow(at index: IndexPath) -> [Product]?
     func numberOfSections() -> Int
     func numberItems(in section: Int) -> Int
+    func didSelectProduct(productId: Int)
+}
+
+protocol ListInteractorOutputProtocol: AnyObject {
+    func didFetchProductsSuccess(product: ListModel?)
+    func didFetchProductsFailure(errorMessage: String)
 }
 
 final class ListPresenter: ListPresenterProtocol {
     
     weak var view: ListViewProtocol?
     var interactor: ListInteractorProtocol?
- //   var router: ListRouterProtocol?
+    var router: ListRouterProtocol?
     
     var allProducts: ListModel?
-
     
     func viewDidLoad() {
         view?.setupUI()
         view?.reloadCollectionView()
+        interactor?.loadAllProducts()
+
     }
     
     func cellForRow(at index: IndexPath) -> [Product]? {
@@ -47,8 +54,22 @@ final class ListPresenter: ListPresenterProtocol {
         if section == 0 {
             return 1 //bir tane yatay colleectionView oluştur
         } else {
-            return allProducts?.products.count ?? 1// gelen data kadar cell göster
+            return allProducts?.products?.count ?? 1// gelen data kadar cell göster
         }
     }
     
+    func didSelectProduct(productId: Int) {
+        router?.routeToDetail(productId: productId)
+    }
+    
+}
+
+extension ListPresenter: ListInteractorOutputProtocol {
+    func didFetchProductsSuccess(product: ListModel?) {
+        allProducts = product
+    }
+    
+    func didFetchProductsFailure(errorMessage: String) {
+        view?.showAlert("Show Products Error: \(errorMessage)", completion: {})
+    }
 }

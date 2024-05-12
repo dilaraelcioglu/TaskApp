@@ -7,88 +7,92 @@
 
 import Foundation
 
-protocol EndpointProtocol {
-    var baseURL: String { get }
-    var path: String { get }
-    var method: HTTPMethod { get }
-    var header: [String: String]? { get }
-    var parameters: [String: Any]? { get }
-    func request() -> URLRequest
+enum NetworkError: Error {
+    case invalidURL
+    case requestFailed
+    case invalidResponse
+    case decodingError
 }
 
-extension EndpointProtocol {
-    var header: [String: String]? {
-        return ["Content-Type": "application/json"]
-    }
+class NetworkManager {
+    static let shared = NetworkManager()
     
-    var parameters: [String: Any]? {
-        return nil
-    }
-}
-
-enum HTTPMethod: String {
-    case get = "GET"
-    case post = "POST"
-    case delete = "DELETE"
-    case patch = "PATCH"
-}
-
-enum Endpoint {
-    case getAllProductList(pageIndex: Int)
-    case getProductDetail(productID: Int)
-}
-
-extension Endpoint: EndpointProtocol {
+    private let baseURL = "http://private-d3ae2-n11case.apiary-mock.com/listing/"
     
-    var baseURL: String {
-        return "http://private-anon-c9c824fcf7-n11case.apiary-mock.com/"
-    }
-    
-    var path: String {
-        switch self {
-        case .getAllProductList:
-            return "/listing/"
-        case .getProductDetail(let productID):
-            return "/product/\(productID)"
-        }
-    }
-    
-    var method: HTTPMethod {
-        return .get
-    }
-    
-    var parameters: [String: Any]? {
-        var parameters: [String: String] = [:]
-        
-        switch self {
-        case .getAllProductList(let pageIndex):
-            parameters["page"] = "\(pageIndex)"
-        default:
-            break
+    func fetchListings(page: Int, completion: @escaping (Result<ListModel, NetworkError>) -> Void) {
+        guard let url = URL(string: "\(baseURL)\(page)") else {
+            completion(.failure(.invalidURL))
+            return
         }
         
-        return parameters
-    }
-    
-    func request() -> URLRequest {
-        guard var components = URLComponents(string: baseURL) else {
-            fatalError("*_* Base Url Error")
-        }
-        components.path = path
-        
-        components.queryItems = parameters?.compactMap { key, value in
-            URLQueryItem(name: key, value: value as? String)
-        }
-        
-        var request = URLRequest(url: components.url!)
-        request.httpMethod = method.rawValue
-        
-        if let headers = header {
-            for (key, value) in headers {
-                request.setValue(value, forHTTPHeaderField: key)
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            if let error = error {
+                print("Error fetching data: \(error)")
+                completion(.failure(.requestFailed))
+                return
             }
+            
+            guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
+                print("Invalid response")
+                completion(.failure(.invalidResponse))
+                return
+            }
+            
+            guard let data = data else {
+                print("No data")
+                completion(.failure(.invalidResponse))
+                return
+            }
+            
+            do {
+                let decoder = JSONDecoder()
+                let result = try decoder.decode(ListModel.self, from: data)
+                var products = result.products
+                if let sponsoredProducts = result.sponsoredProducts {
+                    // Add sponsored products to the list
+                    products?.insert(contentsOf: sponsoredProducts, at: 0)
+                }
+                completion(.success(result))
+            } catch {
+                print("Decoding error: \(error)")
+                completion(.failure(.decodingError))
+            }
+        }.resume()
+    }
+    
+    func fetchProduct(productId: Int, completion: @escaping (Result<ProductDetailModel, NetworkError>) -> Void) {
+        guard let url = URL(string: "\(baseURL)product?productId=\(productId)") else {
+            completion(.failure(.invalidURL))
+            return
         }
         
-        return request
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            if let error = error {
+                print("Error fetching data: \(error)")
+                completion(.failure(.requestFailed))
+                return
+            }
+            
+            guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
+                print("Invalid response")
+                completion(.failure(.invalidResponse))
+                return
+            }
+            
+            guard let data = data else {
+                print("No data")
+                completion(.failure(.invalidResponse))
+                return
+            }
+            
+            do {
+                let decoder = JSONDecoder()
+                let product = try decoder.decode(ProductDetailModel.self, from: data)
+                completion(.success(product))
+            } catch {
+                print("Decoding error: \(error)")
+                completion(.failure(.decodingError))
+            }
+        }.resume()
     }
 }
