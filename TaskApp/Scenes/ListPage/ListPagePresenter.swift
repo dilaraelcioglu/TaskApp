@@ -55,7 +55,7 @@ final class ListPresenter: ListPresenterProtocol {
         if section == 0 {
             return 1 //bir tane yatay colleectionView oluştur
         } else {
-            return allProducts?.products?.count ?? 1// gelen data kadar cell göster
+            return allProducts?.products?.count ?? 4// gelen data kadar cell göster
         }
     }
     

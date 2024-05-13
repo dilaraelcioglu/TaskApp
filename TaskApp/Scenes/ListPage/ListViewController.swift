@@ -34,7 +34,7 @@ class ListViewController: UIViewController {
         let temp = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
         temp.delegate = self
         temp.dataSource = self
-        temp.register(SponsoredProductsCell.self, forCellWithReuseIdentifier: String(describing: SponsoredProductsCell.self))
+        temp.register(SponsoredCollCell.self, forCellWithReuseIdentifier: String(describing: SponsoredCollCell.self))
         temp.register(AllProductsCell.self, forCellWithReuseIdentifier: String(describing: AllProductsCell.self))
         temp.backgroundColor = .orange
         temp.showsVerticalScrollIndicator = false
@@ -43,11 +43,6 @@ class ListViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        presenter = ListPresenter()
-        presenter?.view = self
-        presenter?.interactor = ListInteractor()
-        presenter?.router = ListRouter()
-        
         presenter?.viewDidLoad()
     }
     
@@ -138,7 +133,7 @@ extension ListViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if indexPath.section == 0 {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier:String(describing: SponsoredProductsCell.self), for: indexPath) as! SponsoredProductsCell //bir tane yatay colleectionView oluştur
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier:String(describing: SponsoredCollCell.self), for: indexPath) as! SponsoredCollCell //bir tane yatay colleectionView oluştur
             return cell
         } else {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier:String(describing: AllProductsCell.self), for: indexPath) as! AllProductsCell

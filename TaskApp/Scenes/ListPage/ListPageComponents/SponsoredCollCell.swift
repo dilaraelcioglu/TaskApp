@@ -8,7 +8,12 @@
 import UIKit
 import SnapKit
 
-class SponsoredProductsCell: UICollectionViewCell {
+protocol SponsoredCollCellInterface: AnyObject {
+    func configureUI()
+    func reloadCollectionView()
+}
+
+class SponsoredCollCell: UICollectionViewCell {
     
     private lazy var titleLabel: UILabel = {
         let temp = UILabel()
@@ -47,6 +52,8 @@ class SponsoredProductsCell: UICollectionViewCell {
         return temp
     }()
     
+    var presenter: SponsoredCollCellPresenterInterface?
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.backgroundColor = .systemPink
@@ -57,7 +64,7 @@ class SponsoredProductsCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func configureUI() {
+    func configureUI() {
         self.addSubview(titleLabel)
         titleLabel.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(10)
@@ -79,6 +86,11 @@ class SponsoredProductsCell: UICollectionViewCell {
         }
     }
     
+    
+    func reloadCollectionView() {
+        sponsoredCollectionView.reloadData()
+    }
+    
     func configurePageControlData() {
         /*
         if viewModel?.featuredProductDetail?.attachments?.count ?? 0 <= 1 {
@@ -91,9 +103,9 @@ class SponsoredProductsCell: UICollectionViewCell {
     
 }
 
-extension SponsoredProductsCell: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension SponsoredCollCell: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 3
+        presenter?.numberOfItems(in: section) ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
