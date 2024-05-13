@@ -31,7 +31,6 @@ class SponsoredCollCell: UICollectionViewCell, SponsoredCollCellInterface, Spons
         flowLayout.itemSize = CGSize(width: self.frame.width, height: self.frame.height)
         flowLayout.minimumLineSpacing = 0
         let cv = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
-        cv.backgroundColor = .orange
         cv.delegate = self
         cv.dataSource = self
         cv.isPagingEnabled = true
@@ -48,7 +47,7 @@ class SponsoredCollCell: UICollectionViewCell, SponsoredCollCellInterface, Spons
         temp.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
         temp.backgroundColor = UIColor(red: 0.275, green: 0.275, blue: 0.275, alpha: 0.3)
         temp.pageIndicatorTintColor = .gray
-        temp.currentPageIndicatorTintColor = .yellow
+        temp.currentPageIndicatorTintColor = .black
         temp.backgroundColor = .clear
         temp.numberOfPages = 5
         return temp

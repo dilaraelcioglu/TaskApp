@@ -114,7 +114,7 @@ class SponsoredInnerCell: UICollectionViewCell {
     }
     
     private func configureUI() {
-        contentView.backgroundColor = .lightGray
+        contentView.backgroundColor = .white
         
         contentView.addSubview(productImage)
         productImage.snp.makeConstraints { make in

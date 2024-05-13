@@ -55,7 +55,7 @@ final class CustomStarView: UIView {
 
         for (index, star) in starImages.enumerated() {
             addSubview(star)
-            star.tintColor = .yellow
+            star.tintColor = .orange
             star.image = UIImage(systemName: "star")
             star.snp.makeConstraints { make in
                 make.leading.equalToSuperview().offset(index * 11)
@@ -74,7 +74,7 @@ final class CustomStarView: UIView {
     private func addRatingScore() {
         addSubview(ratingScore)
         ratingScore.font = UIFont.systemFont(ofSize: 10)
-        ratingScore.textColor = .yellow
+        ratingScore.textColor = .orange
         ratingScore.snp.makeConstraints { make in
             make.leading.equalTo(starImages.last!.snp.trailing).offset(3)
             make.centerY.equalToSuperview()

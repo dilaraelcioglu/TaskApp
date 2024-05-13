@@ -37,7 +37,7 @@ class FilterView: UIView {
     }
 
     private func configureUI() {
-        backgroundColor = .green
+        backgroundColor = .white
         snp.makeConstraints { make in
             make.height.equalTo(60)
         }

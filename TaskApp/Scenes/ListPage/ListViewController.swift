@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import Kingfisher
 
 class ListViewController: UIViewController, SponsoredCollCellDelegate {
     func didSelectProduct(with productId: Int) {
@@ -33,7 +34,7 @@ class ListViewController: UIViewController, SponsoredCollCellDelegate {
         temp.dataSource = self
         temp.register(SponsoredCollCell.self, forCellWithReuseIdentifier: String(describing: SponsoredCollCell.self))
         temp.register(AllProductsCell.self, forCellWithReuseIdentifier: String(describing: AllProductsCell.self))
-        temp.backgroundColor = .orange
+        temp.backgroundColor = .lightGray
         temp.showsVerticalScrollIndicator = false
         return temp
     }()
@@ -51,7 +52,7 @@ class ListViewController: UIViewController, SponsoredCollCellDelegate {
     
     func setupUI() {
        // hideKeyboardWhenTappedAround() eklenecek
-        view.backgroundColor = .yellow
+        view.backgroundColor = .white
         navigationController?.isNavigationBarHidden = true
         view.addSubview(searchBarView)
         searchBarView.snp.makeConstraints { make in
@@ -108,7 +109,16 @@ extension ListViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
         } else {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier:String(describing: AllProductsCell.self), for: indexPath) as! AllProductsCell
             cell.productName.text = presenter?.cellForRow(at: indexPath)?[indexPath.row].title
+            cell.sellerName.text = presenter?.cellForRow(at: indexPath)?[indexPath.row].sellerName
+            cell.currentPrice.text = String(format: "%.2f", presenter?.cellForRow(at: indexPath)?[indexPath.row].instantDiscountPrice ?? 0) + "TL"
+            cell.exPrice.text = String(format: "%.2f", presenter?.cellForRow(at: indexPath)?[indexPath.row].price ?? 0) + "TL"
+            cell.starView.rates = Int(presenter?.cellForRow(at: indexPath)?[indexPath.row].rate?.rounded() ?? 0)
             
+            if let imageUrl = presenter?.cellForRow(at: indexPath)?[indexPath.row].image {
+                if let imageUrl = URL(string: imageUrl) {
+                        cell.productImage.kf.setImage(with: imageUrl)
+                }
+             }
             return cell
         }
     }

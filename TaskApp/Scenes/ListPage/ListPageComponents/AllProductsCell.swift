@@ -9,7 +9,7 @@ import UIKit
 
 class AllProductsCell: UICollectionViewCell {
     
-    private lazy var productImage: UIImageView = {
+    lazy var productImage: UIImageView = {
         let temp = UIImageView()
         temp.backgroundColor = .systemGreen
         return temp
@@ -24,7 +24,7 @@ class AllProductsCell: UICollectionViewCell {
         return temp
     }()
     
-    private lazy var sellerName: UILabel = {
+    lazy var sellerName: UILabel = {
         let temp = UILabel()
         temp.text = "elfia"
         temp.textColor = .gray
@@ -48,7 +48,7 @@ class AllProductsCell: UICollectionViewCell {
         return temp
     }()
     
-    private lazy var exPrice: UILabel = {
+    lazy var exPrice: UILabel = {
         let temp = UILabel()
         let exPriceText = "39.99 TL"
         let attributedString = NSMutableAttributedString(string: exPriceText)
@@ -64,7 +64,7 @@ class AllProductsCell: UICollectionViewCell {
     }()
 
     
-    private lazy var currentPrice: UILabel = {
+    lazy var currentPrice: UILabel = {
         let temp = UILabel()
         temp.text = "22.00 TL"
         temp.font = UIFont.boldSystemFont(ofSize: 16)
@@ -98,7 +98,7 @@ class AllProductsCell: UICollectionViewCell {
         return temp
     }()
     
-    private lazy var starView: CustomStarView = {
+    lazy var starView: CustomStarView = {
         let temp = CustomStarView(rates: 1)
         return temp
     }()
@@ -113,7 +113,7 @@ class AllProductsCell: UICollectionViewCell {
     }
     
     private func configureUI() {
-        contentView.backgroundColor = .lightGray
+        contentView.backgroundColor = .white
         
         contentView.addSubview(productImage)
         productImage.snp.makeConstraints { make in
