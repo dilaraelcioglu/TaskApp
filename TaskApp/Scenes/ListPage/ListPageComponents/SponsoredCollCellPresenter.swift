@@ -22,7 +22,6 @@ protocol SponsoredCollCellDelegate {
 
 final class  SponsoredCollCellPresenter:  SponsoredCollCellPresenterInterface {
 
-    
     weak var view: SponsoredCollCellInterface?
     var delegate: SponsoredCollCellDelegate
     var products: [Product]
@@ -33,8 +32,12 @@ final class  SponsoredCollCellPresenter:  SponsoredCollCellPresenterInterface {
         self.view = view
         self.products = products
         self.delegate = delegate
+        if let view = view {
+            view.configureUI() // Bu satırı ekleyerek layoutSubviews'ı çağırıyoruz.
+        }
         !products.isEmpty ? reloadCollectionView() : nil
     }
+
     
     func layoutSubviews() {
         view?.configureUI()
@@ -53,6 +56,7 @@ final class  SponsoredCollCellPresenter:  SponsoredCollCellPresenterInterface {
     }
     
     func numberOfItems(in section: Int) -> Int? {
-        products.count
+     //   products.count
+        4
     }
 }

@@ -13,7 +13,11 @@ protocol SponsoredCollCellInterface: AnyObject {
     func reloadCollectionView()
 }
 
-class SponsoredCollCell: UICollectionViewCell {
+class SponsoredCollCell: UICollectionViewCell, SponsoredCollCellInterface, SponsoredCollCellDelegate {
+    func didSelectProduct(with productId: Int) {
+        //
+    }
+    
     
     private lazy var titleLabel: UILabel = {
         let temp = UILabel()
@@ -54,15 +58,14 @@ class SponsoredCollCell: UICollectionViewCell {
     
     var presenter: SponsoredCollCellPresenterInterface?
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        self.backgroundColor = .systemPink
-        configureUI()
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        if presenter == nil {
+            presenter = SponsoredCollCellPresenter(view: self, products: [], delegate: self)
+        }
+        presenter?.layoutSubviews()
     }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+
     
     func configureUI() {
         self.addSubview(titleLabel)
@@ -100,7 +103,6 @@ class SponsoredCollCell: UICollectionViewCell {
         }
          */
     }
-    
 }
 
 extension SponsoredCollCell: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
