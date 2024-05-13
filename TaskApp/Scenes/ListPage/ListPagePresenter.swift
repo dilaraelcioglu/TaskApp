@@ -8,7 +8,7 @@
 import Foundation
 
 protocol ListPresenterProtocol {
-    var view: ListViewProtocol? { get set }
+    var view: ListViewController? { get set }
     var interactor: ListInteractorProtocol? { get set }
     var router: ListRouterProtocol? { get set }
     func viewDidLoad()
@@ -25,11 +25,17 @@ protocol ListInteractorOutputProtocol: AnyObject {
 
 final class ListPresenter: ListPresenterProtocol {
     
-    weak var view: ListViewProtocol?
+    weak var view: ListViewController?
     var interactor: ListInteractorProtocol?
     var router: ListRouterProtocol?
     
-    var allProducts: ListModel?
+    var allProducts: ListModel? {
+        didSet {
+            DispatchQueue.main.async { [weak self] in
+                self?.view?.mainCollectionView.reloadData()
+            }
+        }
+    }
     
     func viewDidLoad() {
         view?.setupUI()

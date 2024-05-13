@@ -103,10 +103,10 @@ extension SponsoredCollCell: UICollectionViewDelegate, UICollectionViewDataSourc
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: SponsoredInnerCell.self), for: indexPath) as! SponsoredInnerCell
-        cell.productName.text = presenter?.cellForRow(at: indexPath)?.title
-        cell.sellerName.text = presenter?.cellForRow(at: indexPath)?.sellerName
-        cell.currentPrice.text = "\(String(describing: presenter?.cellForRow(at: indexPath)?.instantDiscountPrice))"
-        cell.exPrice.text = "\(String(describing: presenter?.cellForRow(at: indexPath)?.price))"
+//        cell.productName.text = presenter?.cellForRow(at: indexPath)?.title
+//        cell.sellerName.text = presenter?.cellForRow(at: indexPath)?.sellerName
+//        cell.currentPrice.text = "\(String(describing: presenter?.cellForRow(at: indexPath)?.instantDiscountPrice))"
+//        cell.exPrice.text = "\(String(describing: presenter?.cellForRow(at: indexPath)?.price))"
 
         return cell
     }

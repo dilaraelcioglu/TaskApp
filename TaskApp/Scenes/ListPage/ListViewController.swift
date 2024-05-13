@@ -8,13 +8,6 @@
 import UIKit
 import SnapKit
 
-protocol ListViewProtocol: AnyObject {
-    var presenter: ListPresenterProtocol? { get set }
-    func setupUI()
-    func reloadCollectionView()
-    func showAlert(_ errorMessage: String, completion: @escaping ()->())
-}
-
 class ListViewController: UIViewController, SponsoredCollCellDelegate {
     func didSelectProduct(with productId: Int) {
         //
@@ -33,7 +26,7 @@ class ListViewController: UIViewController, SponsoredCollCellDelegate {
         return temp
     }()
     
-    private lazy var mainCollectionView: UICollectionView = {
+    lazy var mainCollectionView: UICollectionView = {
         let flowLayout = UICollectionViewFlowLayout()
         let temp = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
         temp.delegate = self
@@ -49,10 +42,7 @@ class ListViewController: UIViewController, SponsoredCollCellDelegate {
         super.viewDidLoad()
         presenter?.viewDidLoad()
     }
-    
-}
 
-extension ListViewController: ListViewProtocol {
     func reloadCollectionView() {
         DispatchQueue.main.async { [weak self] in
             self?.mainCollectionView.reloadData()
@@ -118,7 +108,7 @@ extension ListViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
         } else {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier:String(describing: AllProductsCell.self), for: indexPath) as! AllProductsCell
             cell.productName.text = presenter?.cellForRow(at: indexPath)?[indexPath.row].title
-
+            
             return cell
         }
     }
@@ -126,5 +116,4 @@ extension ListViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         presenter?.didSelectProduct(productId: 12333)
     }
-
 }

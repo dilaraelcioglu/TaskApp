@@ -23,7 +23,7 @@ final class ProductDetailPresenter {
     
     var productId: Int
     
-    weak var view: ProductDetailViewProtocol?
+    weak var view: ProductDetailViewController?
     var interactor: ProductDetailInteractorProtocol?
     var router: ProductDetailRouterProtocol?
     
