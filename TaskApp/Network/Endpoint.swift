@@ -17,10 +17,13 @@ enum NetworkError: Error {
 class NetworkManager {
     static let shared = NetworkManager()
     
-    private let baseURL = "http://private-d3ae2-n11case.apiary-mock.com/listing/"
+    private init() { }
+    
+    private let baseURL = "http://private-d3ae2-n11case.apiary-mock.com/"
     
     func fetchListings(page: Int, completion: @escaping (Result<ListModel, NetworkError>) -> Void) {
-        guard let url = URL(string: "\(baseURL)\(page)") else {
+
+        guard let url = URL(string: "\(baseURL)listing/\(page)") else {
             completion(.failure(.invalidURL))
             return
         }
