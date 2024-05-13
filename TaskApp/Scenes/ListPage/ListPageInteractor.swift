@@ -25,6 +25,7 @@ final class ListInteractor: ListInteractorProtocol {
             NetworkManager.shared.fetchListings(page: currentPage) { result in
                 switch result {
                 case .success(let products):
+                    self.presenter?.didFetchProductsSuccess(product: products)
                     DispatchQueue.main.async {
                         // UI güncelleme işlemleri burada yapılabilir
                     }

@@ -15,7 +15,7 @@ class AllProductsCell: UICollectionViewCell {
         return temp
     }()
     
-    private lazy var productName: UILabel = {
+    lazy var productName: UILabel = {
         let temp = UILabel()
         temp.text = "iPhone 11 pro MAx Silikon Deri görünümlü Auto-Focus "
         temp.lineBreakMode = .byWordWrapping

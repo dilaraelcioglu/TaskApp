@@ -10,13 +10,13 @@ import SnapKit
 
 class SponsoredInnerCell: UICollectionViewCell {
     
-    private lazy var productImage: UIImageView = {
+    lazy var productImage: UIImageView = {
         let temp = UIImageView()
         temp.backgroundColor = .yellow
         return temp
     }()
     
-    private lazy var productName: UILabel = {
+    lazy var productName: UILabel = {
         let temp = UILabel()
         temp.text = "iPhone 11 pro MAx Silikon Deri görünümlü Auto-Focus "
         temp.lineBreakMode = .byWordWrapping
@@ -25,7 +25,7 @@ class SponsoredInnerCell: UICollectionViewCell {
         return temp
     }()
     
-    private lazy var sellerName: UILabel = {
+    lazy var sellerName: UILabel = {
         let temp = UILabel()
         temp.text = "elfia"
         temp.textColor = .gray
@@ -33,14 +33,14 @@ class SponsoredInnerCell: UICollectionViewCell {
         return temp
     }()
     
-    private lazy var saleIconView: UIImageView = {
+    lazy var saleIconView: UIImageView = {
         let temp = UIImageView()
         temp.image = UIImage(systemName: "delete.forward.fill")
         temp.tintColor = .red
         return temp
     }()
     
-    private lazy var saleIconText: UILabel = {
+    lazy var saleIconText: UILabel = {
         let temp = UILabel()
         temp.text = "%50"
         temp.backgroundColor = .red
@@ -49,7 +49,7 @@ class SponsoredInnerCell: UICollectionViewCell {
         return temp
     }()
     
-    private lazy var exPrice: UILabel = {
+    lazy var exPrice: UILabel = {
         let temp = UILabel()
         let exPriceText = "39.99 TL"
         let attributedString = NSMutableAttributedString(string: exPriceText)
@@ -65,7 +65,7 @@ class SponsoredInnerCell: UICollectionViewCell {
     }()
 
     
-    private lazy var currentPrice: UILabel = {
+    lazy var currentPrice: UILabel = {
         let temp = UILabel()
         temp.text = "22.00 TL"
         temp.font = UIFont.boldSystemFont(ofSize: 16)
@@ -99,7 +99,7 @@ class SponsoredInnerCell: UICollectionViewCell {
         return temp
     }()
     
-    private lazy var starView: CustomStarView = {
+    lazy var starView: CustomStarView = {
         let temp = CustomStarView(rates: 1)
         return temp
     }()

@@ -56,7 +56,7 @@ final class  SponsoredCollCellPresenter:  SponsoredCollCellPresenterInterface {
     }
     
     func numberOfItems(in section: Int) -> Int? {
-     //   products.count
+      //  products.count
         4
     }
 }

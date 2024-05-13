@@ -15,7 +15,11 @@ protocol ListViewProtocol: AnyObject {
     func showAlert(_ errorMessage: String, completion: @escaping ()->())
 }
 
-class ListViewController: UIViewController {
+class ListViewController: UIViewController, SponsoredCollCellDelegate {
+    func didSelectProduct(with productId: Int) {
+        //
+    }
+    
     var presenter: ListPresenterProtocol?
 
     private lazy var searchBarView: UIView = {
@@ -46,30 +50,6 @@ class ListViewController: UIViewController {
         presenter?.viewDidLoad()
     }
     
-    func fetchAllListings() {
-        var currentPage = 1
-        
-        func fetchNextPage() {
-            NetworkManager.shared.fetchListings(page: currentPage) { result in
-                switch result {
-                case .success(let products):
-                    DispatchQueue.main.async {
-                        // UI güncelleme işlemleri burada yapılabilir
-                    }
-                    
-                    if let nextPageString = products.nextPage, let nextPage = Int(nextPageString) {
-                        currentPage = nextPage
-                        fetchNextPage()
-                    }
-                    
-                case .failure(let error):
-                    print("Error: \(error)")
-                }
-            }
-        }
-        fetchNextPage()
-    }
-    
 }
 
 extension ListViewController: ListViewProtocol {
@@ -86,7 +66,7 @@ extension ListViewController: ListViewProtocol {
         view.addSubview(searchBarView)
         searchBarView.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide)
-            make.height.equalTo(100)
+            make.height.equalTo(40)
             make.width.equalToSuperview()
         }
         
@@ -137,6 +117,8 @@ extension ListViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
             return cell
         } else {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier:String(describing: AllProductsCell.self), for: indexPath) as! AllProductsCell
+            cell.productName.text = presenter?.cellForRow(at: indexPath)?[indexPath.row].title
+
             return cell
         }
     }

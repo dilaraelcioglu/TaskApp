@@ -14,10 +14,8 @@ protocol SponsoredCollCellInterface: AnyObject {
 }
 
 class SponsoredCollCell: UICollectionViewCell, SponsoredCollCellInterface, SponsoredCollCellDelegate {
-    func didSelectProduct(with productId: Int) {
-        //
-    }
     
+    var presenter: SponsoredCollCellPresenterInterface?
     
     private lazy var titleLabel: UILabel = {
         let temp = UILabel()
@@ -55,9 +53,7 @@ class SponsoredCollCell: UICollectionViewCell, SponsoredCollCellInterface, Spons
         temp.numberOfPages = 5
         return temp
     }()
-    
-    var presenter: SponsoredCollCellPresenterInterface?
-    
+        
     override func layoutSubviews() {
         super.layoutSubviews()
         if presenter == nil {
@@ -90,18 +86,12 @@ class SponsoredCollCell: UICollectionViewCell, SponsoredCollCellInterface, Spons
     }
     
     
-    func reloadCollectionView() {
-        sponsoredCollectionView.reloadData()
+    func didSelectProduct(with productId: Int) {
+        //
     }
     
-    func configurePageControlData() {
-        /*
-        if viewModel?.featuredProductDetail?.attachments?.count ?? 0 <= 1 {
-            pageControl.isHidden = true
-        } else {
-            pageControl.numberOfPages = viewModel?.featuredProductDetail?.attachments?.count ?? 3
-        }
-         */
+    func reloadCollectionView() {
+        sponsoredCollectionView.reloadData()
     }
 }
 
@@ -111,7 +101,13 @@ extension SponsoredCollCell: UICollectionViewDelegate, UICollectionViewDataSourc
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: SponsoredInnerCell.self), for: indexPath) as! SponsoredInnerCell
+        cell.productName.text = presenter?.cellForRow(at: indexPath)?.title
+        cell.sellerName.text = presenter?.cellForRow(at: indexPath)?.sellerName
+        cell.currentPrice.text = "\(String(describing: presenter?.cellForRow(at: indexPath)?.instantDiscountPrice))"
+        cell.exPrice.text = "\(String(describing: presenter?.cellForRow(at: indexPath)?.price))"
+
         return cell
     }
     
