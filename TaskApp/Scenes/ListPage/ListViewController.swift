@@ -43,8 +43,11 @@ class ListViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupUI()
-   //     fetchAllListings()
+        presenter = ListPresenter()
+        presenter?.view = self
+        presenter?.interactor = ListInteractor()
+        presenter?.router = ListRouter()
+        
         presenter?.viewDidLoad()
     }
     
@@ -74,60 +77,13 @@ class ListViewController: UIViewController {
     
 }
 
-extension ListViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 1
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 2
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        if indexPath.section == 0 {
-            return CGSize(width: mainCollectionView.frame.width, height: 200)
-        } else {
-            return CGSize(width: mainCollectionView.frame.width/2 - 1, height: 340)
-        }
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if section == 0 {
-            return 1 //bir tane yatay colleectionView oluştur
-        } else {
-            return 200 // gelen data kadar cell göster
-        }
-    }
-    
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 2
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if indexPath.section == 0 {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier:String(describing: SponsoredProductsCell.self), for: indexPath) as! SponsoredProductsCell //bir tane yatay colleectionView oluştur
-            return cell
-        } else {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier:String(describing: AllProductsCell.self), for: indexPath) as! AllProductsCell
-            return cell
-        }
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        presenter?.didSelectProduct(productId: 12333)
-    }
-    
-}
-
 extension ListViewController: ListViewProtocol {
-
     func reloadCollectionView() {
         DispatchQueue.main.async { [weak self] in
             self?.mainCollectionView.reloadData()
         }
     }
-
+    
     func setupUI() {
        // hideKeyboardWhenTappedAround() eklenecek
         view.backgroundColor = .yellow
@@ -151,4 +107,47 @@ extension ListViewController: ListViewProtocol {
             make.width.bottom.equalToSuperview()
         }
     }
+    
+}
+
+extension ListViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 1
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 2
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        if indexPath.section == 0 {
+            return CGSize(width: mainCollectionView.frame.width, height: 200)
+        } else {
+            return CGSize(width: mainCollectionView.frame.width/2 - 1, height: 340)
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return presenter?.numberItems(in: section) ?? 0
+    }
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return presenter?.numberOfSections() ?? 0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        if indexPath.section == 0 {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier:String(describing: SponsoredProductsCell.self), for: indexPath) as! SponsoredProductsCell //bir tane yatay colleectionView oluştur
+            return cell
+        } else {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier:String(describing: AllProductsCell.self), for: indexPath) as! AllProductsCell
+            return cell
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        presenter?.didSelectProduct(productId: 12333)
+    }
+
 }

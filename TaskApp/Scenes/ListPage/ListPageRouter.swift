@@ -24,6 +24,7 @@ final class ListRouter: ListRouterProtocol {
         let router = ListRouter()
         
         view.presenter = presenter
+        
         presenter.view = view
         presenter.router = router
         presenter.interactor = interactor
@@ -39,4 +40,3 @@ final class ListRouter: ListRouterProtocol {
     }
 
 }
-

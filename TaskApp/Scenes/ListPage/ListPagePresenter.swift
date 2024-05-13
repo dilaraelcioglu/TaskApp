@@ -9,7 +9,8 @@ import Foundation
 
 protocol ListPresenterProtocol {
     var view: ListViewProtocol? { get set }
-    
+    var interactor: ListInteractorProtocol? { get set }
+    var router: ListRouterProtocol? { get set }
     func viewDidLoad()
     func cellForRow(at index: IndexPath) -> [Product]?
     func numberOfSections() -> Int
