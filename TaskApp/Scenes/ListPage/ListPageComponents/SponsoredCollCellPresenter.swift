@@ -9,11 +9,11 @@ import Foundation
 
 protocol SponsoredCollCellPresenterInterface {
     var view: SponsoredCollCellInterface? { get set }
-    
     func layoutSubviews()
     func cellForRow(at indexPath: IndexPath) -> Product?
     func numberOfItems(in section: Int) -> Int?
     func selectedProduct(with productId: Int)
+    func reloadCollectionView()
 }
 
 protocol SponsoredCollCellDelegate {
@@ -24,7 +24,13 @@ final class  SponsoredCollCellPresenter:  SponsoredCollCellPresenterInterface {
 
     weak var view: SponsoredCollCellInterface?
     var delegate: SponsoredCollCellDelegate
-    var products: [Product]
+    var products: [Product]? {
+        didSet {
+            DispatchQueue.main.async { [weak self] in
+                self?.view?.reloadCollectionView()
+            }
+        }
+    }
     
     init(view: SponsoredCollCellInterface? = nil,
          products: [Product],
@@ -48,7 +54,7 @@ final class  SponsoredCollCellPresenter:  SponsoredCollCellPresenterInterface {
     }
     
     func cellForRow(at indexPath: IndexPath) -> Product? {
-        products[indexPath.row]
+        products?[indexPath.row]
     }
     
     func selectedProduct(with productId: Int) {

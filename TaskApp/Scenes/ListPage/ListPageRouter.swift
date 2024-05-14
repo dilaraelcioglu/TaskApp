@@ -33,10 +33,10 @@ final class ListRouter: ListRouterProtocol {
         
         return view
     }
-    
+     
     func routeToDetail(productId: Int) {
         let productDetail = ProductDetailRouter.createModule(productId: productId)
-        view?.navigationController?.pushViewController(productDetail, animated: true)
+        view?.navigationController?.pushViewController(productDetail, animated: false)
     }
 
 }

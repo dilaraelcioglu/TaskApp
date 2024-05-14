@@ -8,6 +8,7 @@
 import Foundation
 
 protocol ProductDetailInteractorProtocol {
+    var presenter: ProductDetailInteractorOutputProcol? { get set }
     func loadProductDetail(productId: Int)
 }
 

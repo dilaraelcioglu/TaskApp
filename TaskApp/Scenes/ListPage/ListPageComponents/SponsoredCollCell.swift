@@ -13,9 +13,16 @@ protocol SponsoredCollCellInterface: AnyObject {
     func reloadCollectionView()
 }
 
+protocol SponsoredCollOutputProtocol: AnyObject {
+    func didFetchSponsoredProductsSuccess(sponsoredProducts: [Product]?)
+}
+
 class SponsoredCollCell: UICollectionViewCell, SponsoredCollCellInterface, SponsoredCollCellDelegate {
     
     var presenter: SponsoredCollCellPresenterInterface?
+    
+    var sponsoredPro: [Product]?
+    var products: [Product]?
     
     private lazy var titleLabel: UILabel = {
         let temp = UILabel()
@@ -47,7 +54,7 @@ class SponsoredCollCell: UICollectionViewCell, SponsoredCollCellInterface, Spons
         temp.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
         temp.backgroundColor = UIColor(red: 0.275, green: 0.275, blue: 0.275, alpha: 0.3)
         temp.pageIndicatorTintColor = .gray
-        temp.currentPageIndicatorTintColor = .black
+        temp.currentPageIndicatorTintColor = .red
         temp.backgroundColor = .clear
         temp.numberOfPages = 5
         return temp
@@ -84,24 +91,17 @@ class SponsoredCollCell: UICollectionViewCell, SponsoredCollCellInterface, Spons
         }
     }
     
-    
-    func didSelectProduct(with productId: Int) {
-        //
-    }
-    
-    func reloadCollectionView() {
-        sponsoredCollectionView.reloadData()
-    }
 }
 
 extension SponsoredCollCell: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        presenter?.numberOfItems(in: section) ?? 0
+        sponsoredPro?.count ?? 2
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: SponsoredInnerCell.self), for: indexPath) as! SponsoredInnerCell
+        cell.productName.text = sponsoredPro?[indexPath.row].title ?? "jnjn"
 //        cell.productName.text = presenter?.cellForRow(at: indexPath)?.title
 //        cell.sellerName.text = presenter?.cellForRow(at: indexPath)?.sellerName
 //        cell.currentPrice.text = "\(String(describing: presenter?.cellForRow(at: indexPath)?.instantDiscountPrice))"
@@ -114,6 +114,24 @@ extension SponsoredCollCell: UICollectionViewDelegate, UICollectionViewDataSourc
         return CGSize(width: sponsoredCollectionView.bounds.size.width, height: sponsoredCollectionView.bounds.size.height)
     }
     
+    func reloadCollectionView() {
+        sponsoredCollectionView.reloadData()
+    }
+    
+    func didSelectProduct(with productId: Int) {
+        //
+    }
+    
+}
+
+extension SponsoredCollCell: SponsoredCollOutputProtocol {
+    func didFetchSponsoredProductsSuccess(sponsoredProducts: [Product]?) {
+        guard let sponsoredProducts = sponsoredProducts else {
+            return
+        }
+        self.sponsoredPro = sponsoredProducts
+        reloadCollectionView() // Update the collection view with new data
+    }
 }
 
 

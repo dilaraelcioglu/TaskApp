@@ -9,15 +9,16 @@ import Foundation
 
 protocol ListInteractorProtocol {
     var presenter: ListInteractorOutputProtocol? { get set }
-    
+    var sponsoredPresenter: SponsoredCollOutputProtocol? {get set}
     func loadAllProducts()
-
+    
 }
 
 final class ListInteractor: ListInteractorProtocol {
-
+    var sponsoredPresenter: SponsoredCollOutputProtocol?
+    
     weak var presenter: ListInteractorOutputProtocol?
-
+    
     func loadAllProducts() {
         var currentPage = 1
         
@@ -27,9 +28,13 @@ final class ListInteractor: ListInteractorProtocol {
                 case .success(let products):
                     self.presenter?.didFetchProductsSuccess(product: products)
                     DispatchQueue.main.async {
-                        // UI güncelleme işlemleri burada yapılabilir
+                        self.sponsoredPresenter = SponsoredCollCell()
+                        if let sponsoreProducts = products.sponsoredProducts {
+                            self.sponsoredPresenter?.didFetchSponsoredProductsSuccess(sponsoredProducts: sponsoreProducts)
+                            
+                        }
                     }
-                    
+
                     if let nextPageString = products.nextPage, let nextPage = Int(nextPageString) {
                         currentPage = nextPage
                         fetchNextPage()
