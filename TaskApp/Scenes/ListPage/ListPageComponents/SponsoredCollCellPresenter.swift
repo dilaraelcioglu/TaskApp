@@ -39,7 +39,7 @@ final class  SponsoredCollCellPresenter:  SponsoredCollCellPresenterInterface {
         self.products = products
         self.delegate = delegate
         if let view = view {
-            view.configureUI() // Bu satırı ekleyerek layoutSubviews'ı çağırıyoruz.
+            view.configureUI()
         }
         !products.isEmpty ? reloadCollectionView() : nil
     }

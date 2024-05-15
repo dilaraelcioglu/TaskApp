@@ -26,6 +26,7 @@ final class ListInteractor: ListInteractorProtocol {
             NetworkManager.shared.fetchListings(page: currentPage) { result in
                 switch result {
                 case .success(let products):
+                    
                     self.presenter?.didFetchProductsSuccess(product: products)
                     DispatchQueue.main.async {
                         self.sponsoredPresenter = SponsoredCollCell()
@@ -33,11 +34,6 @@ final class ListInteractor: ListInteractorProtocol {
                             self.sponsoredPresenter?.didFetchSponsoredProductsSuccess(sponsoredProducts: sponsoreProducts)
                             
                         }
-                    }
-
-                    if let nextPageString = products.nextPage, let nextPage = Int(nextPageString) {
-                        currentPage = nextPage
-                        fetchNextPage()
                     }
                     
                 case .failure(let error):

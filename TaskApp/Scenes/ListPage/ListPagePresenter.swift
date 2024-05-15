@@ -74,7 +74,6 @@ final class ListPresenter: ListPresenterProtocol {
 extension ListPresenter: ListInteractorOutputProtocol {
     func didFetchProductsSuccess(product: ListModel?) {
         allProducts = product
-        print(allProducts)
     }
     
     func didFetchProductsFailure(errorMessage: String) {

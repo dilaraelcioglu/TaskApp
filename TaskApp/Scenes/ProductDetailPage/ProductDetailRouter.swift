@@ -8,6 +8,7 @@
 import UIKit
 
 protocol ProductDetailRouterProtocol {
+    var view: UIViewController? { get set }
 
 }
 

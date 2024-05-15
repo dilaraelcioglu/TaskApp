@@ -27,26 +27,29 @@ final class ProductDetailPresenter {
     var interactor: ProductDetailInteractorProtocol?
     var router: ProductDetailRouterProtocol?
     
-    private var productDetail: ProductDetailModel?
+    private var productDetail: ProductDetailModel? {
+        didSet {
+            DispatchQueue.main.async { [weak self] in
+                self?.view?.collectionView.reloadData()
+            }
+        }
+    }
     
     init(productId: Int) {
         self.productId = productId
     }
     
     func viewDidLoad() {
+        view?.setupUI()
         interactor?.loadProductDetail(productId: productId)
     }
     
-    func cellForRow(at index: IndexPath) -> [Product]? {
-        
-        switch index.section {
-
-        default: return nil
-        }
+    func cellForRow(at index: IndexPath) -> ProductDetailModel? {
+        return productDetail
     }
     
     func numberOfRows(in section: Int) -> Int {
-        return 1
+        return productDetail?.images?.count ?? 1
     }
     
     func numberOfSection() -> Int {

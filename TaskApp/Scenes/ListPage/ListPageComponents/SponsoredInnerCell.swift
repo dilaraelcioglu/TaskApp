@@ -60,7 +60,7 @@ class SponsoredInnerCell: UICollectionViewCell {
         ], range: range)
         temp.attributedText = attributedString
         temp.font = UIFont.systemFont(ofSize: 12)
-        temp.textColor = .black // Normal text rengi
+        temp.textColor = .black
         return temp
     }()
 

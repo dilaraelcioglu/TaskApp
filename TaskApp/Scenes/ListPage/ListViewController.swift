@@ -104,7 +104,7 @@ extension ListViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if indexPath.section == 0 {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier:String(describing: SponsoredCollCell.self), for: indexPath) as! SponsoredCollCell //bir tane yatay colleectionView oluştur
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier:String(describing: SponsoredCollCell.self), for: indexPath) as! SponsoredCollCell
             return cell
         } else {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier:String(describing: AllProductsCell.self), for: indexPath) as! AllProductsCell

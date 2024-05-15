@@ -130,7 +130,7 @@ extension SponsoredCollCell: SponsoredCollOutputProtocol {
             return
         }
         self.sponsoredPro = sponsoredProducts
-        reloadCollectionView() // Update the collection view with new data
+        reloadCollectionView()
     }
 }
 

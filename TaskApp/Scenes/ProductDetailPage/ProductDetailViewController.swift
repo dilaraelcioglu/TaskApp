@@ -37,7 +37,8 @@ final class ProductDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        presenter?.viewDidLoad()
+        presenter?.viewDidLoad() 
+        setupUI()
     }
 
 
@@ -67,6 +68,7 @@ extension ProductDetailViewController:UICollectionViewDelegate, UICollectionView
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: ProductDetailCollViewCell.self), for: indexPath) as! ProductDetailCollViewCell
+        cell.productName.text = presenter?.cellForRow(at: indexPath)?[indexPath.row].title
         if let imageUrl = presenter?.cellForRow(at: indexPath)?[indexPath.row].image {
             if let imageUrl = URL(string: imageUrl) {
                     cell.productImage.kf.setImage(with: imageUrl)
